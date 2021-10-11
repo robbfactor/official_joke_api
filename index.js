@@ -1,6 +1,6 @@
 const express = require('express');
 const LimitingMiddleware = require('limiting-middleware');
-const { randomJoke, randomTen, jokeByType } = require('./handler');
+const { randomJoke, randomTen, jokeByType, latestJokes } = require('./handler');
 
 const app = express();
 
@@ -49,6 +49,10 @@ app.use((err, req, res, next) => {
   res.status(statusCode).json({
     type: 'error', message: err.message
   });
+});
+
+app.get('/jokes/latest', (req, res) => {
+  res.json(latestJokes());
 });
 
 const PORT = process.env.PORT || 3005;
